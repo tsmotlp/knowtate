@@ -8,7 +8,7 @@ declare global {
 export const minioClient =
   globalThis.minio ||
   new Client({
-    endPoint: process.env.MINIO_ENDPOINT ? process.env.MINIO_ENDPOINT : "127.0.0.1",
+    endPoint: process.env.MINIO_ENDPOINT ? process.env.MINIO_ENDPOINT : "http://127.0.0.1:9000",
     port: 9000,
     useSSL: false,
     accessKey: process.env.MINIO_ACCESS_KEY ? process.env.MINIO_ACCESS_KEY : "minioadmin",

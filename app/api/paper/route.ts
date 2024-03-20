@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
     // 等待Promise解析
     await putObjectPromise;
-    const minioEndpoint = `http://${process.env.MINIO_ENDPOINT}:9000`
+    const minioEndpoint = `https://www.gptshub.site`
     const paperUrl = `${minioEndpoint}/${PAPERS_BUCKET_NAME}/${paperKey}`
 
     return new NextResponse(JSON.stringify({

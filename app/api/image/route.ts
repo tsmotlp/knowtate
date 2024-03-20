@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(imageData);
     const imageKey = `image-${Date.now().toString()}-${imageName.replace(" ", "-")}`;
     await minioClient.putObject(IMAGES_BUCKET_NAME, imageKey, buffer)
-    const minioEndpoint = `http://${process.env.MINIO_ENDPOINT}:9000`
+    const minioEndpoint = `https://www.gptshub.site`
     const imageUrl = `${minioEndpoint}/${IMAGES_BUCKET_NAME}/${imageKey}`
     // remove old image
     const oldUrl = formData.get("oldUrl")
@@ -37,7 +37,7 @@ export async function DELETE(
   try {
     const res = await req.json()
     if (res.oldUrl) {
-      const minioEndpoint = `http://${process.env.MINIO_ENDPOINT}:9000`
+      const minioEndpoint = `https://www.gptshub.site`
       const oldImageKey = res.oldUrl.replace(`${minioEndpoint}/${IMAGES_BUCKET_NAME}/`, "")
       await minioClient.removeObject(IMAGES_BUCKET_NAME, oldImageKey)
     }
