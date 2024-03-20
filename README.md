@@ -1,36 +1,198 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
 
-## Getting Started
+# <img src="public/logo.svg" width="30"> Knowtate <img src="https://img.shields.io/github/license/tsmotlp/knowtate?label=License&style=flat-square&color=blue">
 
-First, run the development server:
+</div>
 
+<p align="center">
+  <strong>Empowering Research Excellence</strong><br>
+  Knowtate is a fully localized scientific research assistant app offering a suite of features for literature reading, management, and Q&A. Embrace the power of centralized document control, seamless reading, and intelligent inquiry—all within a single, streamlined application.
+</p>
+
+<p align="center">
+  <img src="public/images/dashboard.png" alt="Knowtate Landing Page">
+</p>
+
+## Features
+
+### Literature Management and Reading
+Upload and manage your research papers with a central repository backed by MinIO object storage service. This service is self-hostable and supports various cloud storage solutions like AWS S3. Enjoy an online PDF reader that enhances your literature reading experience.
+
+<p align="center">
+  <img src="public/images/files.png" alt="Document Management">
+  <img src="public/images/paper-reading.png" alt="Paper reading">
+</p>
+
+### Diverse Note-Taking Styles:
+Knowtate caters to your note-taking preferences with three unique styles, each designed to complement different aspects of your research workflow.
+
+#### Notion-Styled Rich Text Editor:
+For those who appreciate the flexibility and aesthetic of Notion, our rich text editor offers similar functionalities. Utilize slash commands (/) to seamlessly switch between text block styles, supporting multi-level headings, tables, ordered and unordered lists, images, and more. All notes are automatically saved to the MinIO object storage system for convenience and security.
+
+<p align="center">
+  <img src="public/images/note-notion.png" alt="Notion-Style">
+</p>
+
+
+#### Markdown Editor:
+For the markdown aficionados, the Markdown Editor provides a straightforward, text-focused interface. This allows for efficient writing and formatting with the simplicity and power of markdown syntax—perfect for those who prefer keyboard-centric controls and clean, exportable content.
+
+<p align="center">
+  <img src="public/images/markdown.png" alt="markdown">
+</p>
+
+#### Excalidraw Whiteboard:
+Unleash your creativity with the Excalidraw whiteboard, a digital canvas for freeform drawing, diagramming, and visual brainstorming. This tool is excellent for creating and sharing quick sketches, complex diagrams, or visual notes that complement your research.
+
+
+<p align="center">
+  <img src="public/images/excalidraw.png" alt="Excalidraw">
+</p>
+
+### Intelligent Paper Q&A:
+Powered by a RAG-based intelligent Q&A system, Knowtate allows you to inquire about any aspect of your papers. Customize your dialogue models, vectorization models, and vector databases to suit your needs. Currently supporting OpenAI ChatGPT and OpenAI Embeddings for insightful interactions.
+
+<p align="center">
+  <img src="public/images/chat.png" alt="Paper QA">
+</p>
+
+### More Features on the Horizon:
+Development is ongoing for additional features to enhance your research experience even further.
+
+## Quick Start
+
+### Run Locally
+
+#### 1. Clone the Repository Locally
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Navigate to your desired path
+cd /your/path/
+git clone https://github.com/tsmotlp/knowtate.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### 2. Configure Environment Variables
+```bash
+cd /your/path/knowtate
+cp .env.example .env
+# Change `.env.example` to `.env` and update the following variables in `.env`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Deployment used by `npx convex dev`
+CONVEX_DEPLOYMENT=
+NEXT_PUBLIC_CONVEX_URL=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+MINIO_ENDPOINT=
+MINIO_ACCESS_KEY=
+MINIO_SECRET_KEY=
 
-## Learn More
+OPENAI_API_KEY=
+PROXY_URL=
 
-To learn more about Next.js, take a look at the following resources:
+```
+> Knowtate uses convex as backend database to store file meta data, please visit [convex website](https://www.convex.dev/) to get `CONVEX_DEPLOYMENT` and `NEXT_PUBLIC_CONVEX_URL`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> Knowtate uses clerk for authentication, please visit [clerk website](https://clerk.com/) ot get `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+> For Windows users, find your network proxy address in Settings -> Network and Internet -> Manual proxy setup -> Edit. Enter the server information in the format http://localhost:10077 as your PROXY_URL.
+<p align="center">
+  <img src="public/images/proxy-windows.png" alt="Proxy Settings on Windows">
+</p>
 
-## Deploy on Vercel
+> For Linux users, determine your network proxy address with:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+echo $HTTP_PROXY
+``` 
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### 3. Install and run minio
+Download MinIO server binaries compatible with your OS from the [MinIO Download Page](https://min.io/download).
+> For Windows users, you can open Powershell and enter the following commands:
+```bash
+PS> Invoke-WebRequest -Uri "https://dl.min.io/server/minio/release/windows-amd64/minio.exe" -OutFile "C:\minio.exe"
+PS> setx MINIO_ROOT_USER admin
+PS> setx MINIO_ROOT_PASSWORD password
+PS> C:\minio.exe server F:\Data --console-address ":9001"
+```
+
+> For Linux users, you can open Terminal and enter the following commands:
+```bash
+wget https://dl.min.io/server/minio/release/linux-amd64/minio
+chmod +x minio
+MINIO_ROOT_USER=admin MINIO_ROOT_PASSWORD=password ./minio server /mnt/data --console-address ":9001"
+```
+
+> Similar to the MacOS users:
+```bash
+curl --progress-bar -O https://dl.min.io/server/minio/release/darwin-amd64/minio
+chmod +x minio
+MINIO_ROOT_USER=admin MINIO_ROOT_PASSWORD=password ./minio server /mnt/data --console-address ":9001"
+```
+
+After setting up, MinIO server listens on port :9000, and you can manage your storage through  `http://localhost:9001`.
+
+#### 4. Install Depedencies:
+```bash
+> cd  path/to/knowtate
+> npm install # or pnpm install or yarn
+```
+
+#### 5. Run Knowtate:
+```bash
+> cd  path/to/knowtate
+> npm run dev # or pnpm run dev or yarn dev
+```
+Access Knowtate at http://localhost:3000 and delve into your personalized academic research experience.
+
+### Run with Docker
+
+#### 1. Install Docker
+For Windows: Download Docker Desktop and follow the [official guide](https://docs.docker.com/engine/install/) or search for an installation tutorial.
+
+#### 2. Clone the Repository Locally
+```bash
+# Navigate to your desired path
+cd /your/path/
+git clone https://github.com/tsmotlp/knowtate.git
+```
+
+#### 3. Configure Environment Variables
+```bash
+cd /your/path/knowtate
+cp .env.example .env
+# Change `.env.example` to `.env` and update the following variables in `.env`:
+
+# Deployment used by `npx convex dev`
+CONVEX_DEPLOYMENT=
+NEXT_PUBLIC_CONVEX_URL=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+
+MINIO_ENDPOINT=
+MINIO_ACCESS_KEY=
+MINIO_SECRET_KEY=
+
+OPENAI_API_KEY=
+PROXY_URL=
+```
+
+#### 4. Build the Image
+```bash
+docker-compose build --no-cache
+```
+
+#### 5. Start the Application
+```bash
+docker-compose up
+```
+
+#### 6. Stop the Application
+```bash
+docker-compose down
+```
+
+## Contributing
+Contributions through code, issue reporting, or suggestions are welcomed. Please refer to our [Contribution Guide](https://chat.openai.com/c/CONTRIBUTION).
+
+## License
+Knowtate is licensed under GPL-3.0. For details, please refer to the [LICENSE](https://chat.openai.com/c/LICENSE) file.
