@@ -10,7 +10,9 @@ import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/spinner"
 
 export const Navbar = () => {
-  const { isAuthenticated, isLoading } = useConvexAuth()
+  // const { isAuthenticated, isLoading } = useConvexAuth()
+  const isAuthenticated = true
+  const isLoading = false
   const scrolled = useScrollTop()
   return (
     <div className={cn(

@@ -2,21 +2,22 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server"
 import { Doc, Id } from "./_generated/dataModel";
 import { fileTypes } from "./schema";
+import { DEMO_USER_ID } from "../constants"
 
 export const getAllFiles = query({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
-    console.log("userId", userId)
+    // const userId = identity.subject
+    // console.log("userId", userId)
 
     const allFiles = await ctx.db
       .query("files")
-      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .withIndex("by_userId", (q) => q.eq("userId", DEMO_USER_ID))
       .filter((q) => (q.eq(q.field("isArchived"), false)))
       .order("desc")
       .collect()
@@ -26,17 +27,17 @@ export const getAllFiles = query({
 
 export const getAllFavoritedFiles = query({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const allFiles = await ctx.db
       .query("files")
-      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .withIndex("by_userId", (q) => q.eq("userId", DEMO_USER_ID))
       .filter((q) => (q.eq(q.field("isArchived"), false)))
       .filter((q) => (q.eq(q.field("favorited"), true)))
       .order("desc")
@@ -47,17 +48,17 @@ export const getAllFavoritedFiles = query({
 
 export const getAllPapers = query({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const allFiles = await ctx.db
       .query("files")
-      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .withIndex("by_userId", (q) => q.eq("userId", DEMO_USER_ID))
       .filter((q) => (q.eq(q.field("isArchived"), false)))
       .filter((q) => (q.eq(q.field("type"), "pdf")))
       .order("desc")
@@ -68,17 +69,17 @@ export const getAllPapers = query({
 
 export const getAllArchivedFiles = query({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const allFiles = await ctx.db
       .query("files")
-      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .withIndex("by_userId", (q) => q.eq("userId", DEMO_USER_ID))
       .filter((q) => (q.eq(q.field("isArchived"), true)))
       .order("desc")
       .collect()
@@ -91,13 +92,13 @@ export const toggleFavorite = mutation({
     fileId: v.id("files")
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const favorite = await ctx.db.get(args.fileId)
 
@@ -105,7 +106,7 @@ export const toggleFavorite = mutation({
       throw new Error("File not found!")
     }
 
-    if (favorite.userId !== userId) {
+    if (favorite.userId !== DEMO_USER_ID) {
       throw new Error("Unauthorized!")
     }
 
@@ -124,19 +125,19 @@ export const createNote = mutation({
     parentFile: v.optional(v.id("files"))
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const note = await ctx.db.insert("files", {
       title: args.title,
       type: args.type,
       parentFile: args.parentFile,
-      userId,
+      userId: DEMO_USER_ID,
       favorited: false,
       isArchived: false,
       isPublished: false,
@@ -154,20 +155,20 @@ export const createPaper = mutation({
     url: v.string(),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const paper = await ctx.db.insert("files", {
       title: args.title,
       key: args.key,
       url: args.url,
       type: "pdf",
-      userId,
+      userId: DEMO_USER_ID,
       content: "",
       categoryId: args.categoryId,
       favorited: false,
@@ -180,17 +181,17 @@ export const createPaper = mutation({
 
 export const getAllNotes = query({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const allNotes = await ctx.db
       .query("files")
-      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .withIndex("by_userId", (q) => q.eq("userId", DEMO_USER_ID))
       .filter((q) => (q.neq(q.field("type"), "pdf")))
       .filter((q) => (q.eq(q.field("isArchived"), false)))
       .order("desc")
@@ -204,19 +205,19 @@ export const getAllNotesOfPaper = query({
     paperId: v.optional(v.id("files"))
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const allNotes = await ctx.db
       .query("files")
       .withIndex("by_userId_parent", (q) =>
         q
-          .eq("userId", userId)
+          .eq("userId", DEMO_USER_ID)
           .eq("parentFile", args.paperId)
       )
       .filter((q) => (q.neq(q.field("type"), "pdf")))
@@ -232,19 +233,19 @@ export const getSidebarNotes = query({
     parentNote: v.optional(v.id("files"))
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const allNotes = await ctx.db
       .query("files")
       .withIndex("by_userId_parent", (q) =>
         q
-          .eq("userId", userId)
+          .eq("userId", DEMO_USER_ID)
           .eq("parentFile", args.parentNote)
       )
       .filter((q) => (q.neq(q.field("type"), "pdf")))
@@ -260,13 +261,13 @@ export const getFileById = query({
     fileId: v.id("files")
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const file = await ctx.db.get(args.fileId)
 
@@ -274,7 +275,7 @@ export const getFileById = query({
       throw new Error("File not found!")
     }
 
-    if (file?.userId != userId) {
+    if (file?.userId != DEMO_USER_ID) {
       throw new Error("Unauthorized!")
     }
 
@@ -286,17 +287,17 @@ export const getFileById = query({
 export const archiveFile = mutation({
   args: { fileId: v.id("files") },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
-    const userId = identity.subject;
+    // const identity = await ctx.auth.getUserIdentity()
+    // if (!identity) {
+    //   throw new Error("Not authenticated");
+    // }
+    // const userId = identity.subject;
 
     const existingFile = await ctx.db.get(args.fileId)
     if (!existingFile) {
       throw new Error("File not found!")
     }
-    if (existingFile.userId !== userId) {
+    if (existingFile.userId !== DEMO_USER_ID) {
       throw new Error("Unauthorized!")
     }
 
@@ -305,7 +306,7 @@ export const archiveFile = mutation({
         .query("files")
         .withIndex("by_userId_parent", (q) => (
           q
-            .eq("userId", userId)
+            .eq("userId", DEMO_USER_ID)
             .eq("parentFile", fileId)
         ))
         .collect()
@@ -334,19 +335,19 @@ export const removeFile = mutation({
     fileId: v.id("files"),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
-    const userId = identity.subject
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
+    // const userId = identity.subject
 
     const existingFile = await ctx.db.get(args.fileId)
     if (!existingFile) {
       throw new Error("File not found!")
     }
 
-    if (existingFile.userId !== userId) {
+    if (existingFile.userId !== DEMO_USER_ID) {
       throw new Error("Unauthorized!")
     }
 
@@ -360,17 +361,17 @@ export const restoreFile = mutation({
     fileId: v.id("files"),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
-    const userId = identity.subject
+    // const identity = await ctx.auth.getUserIdentity()
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
+    // const userId = identity.subject
 
     const existingFile = await ctx.db.get(args.fileId)
     if (!existingFile) {
       throw new Error("File not found!")
     }
-    if (existingFile.userId !== userId) {
+    if (existingFile.userId !== DEMO_USER_ID) {
       throw new Error("Unauthorized!")
     }
 
@@ -379,7 +380,7 @@ export const restoreFile = mutation({
         .query("files")
         .withIndex("by_userId_parent", (q) => (
           q
-            .eq("userId", userId)
+            .eq("userId", DEMO_USER_ID)
             .eq("parentFile", fileId)
         ))
         .collect()
@@ -418,13 +419,13 @@ export const updateFile = mutation({
     isPublished: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
+    // const identity = await ctx.auth.getUserIdentity();
 
-    if (!identity) {
-      throw new Error("Unauthenticated");
-    }
+    // if (!identity) {
+    //   throw new Error("Unauthenticated");
+    // }
 
-    const userId = identity.subject;
+    // const userId = identity.subject;
 
     const { fileId, ...rest } = args;
 
@@ -434,7 +435,7 @@ export const updateFile = mutation({
       throw new Error("File not found");
     }
 
-    if (existingFile.userId !== userId) {
+    if (existingFile.userId !== DEMO_USER_ID) {
       throw new Error("Unauthorized");
     }
 
@@ -453,20 +454,20 @@ export const uploadPaper = mutation({
     categoryId: v.string(),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
+    // const identity = await ctx.auth.getUserIdentity()
 
-    if (!identity) {
-      throw new Error("Not authenticated!")
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated!")
+    // }
 
-    const userId = identity.subject
+    // const userId = identity.subject
 
     const paper = await ctx.db.insert("files", {
       title: args.title,
       key: args.key,
       url: args.url,
       type: "pdf",
-      userId,
+      userId: DEMO_USER_ID,
       favorited: false,
       isArchived: false,
     })
@@ -477,7 +478,7 @@ export const uploadPaper = mutation({
 export const getPublishedNote = query({
   args: { noteId: v.id("files") },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
+    // const identity = await ctx.auth.getUserIdentity();
 
     const note = await ctx.db.get(args.noteId);
 
@@ -489,13 +490,13 @@ export const getPublishedNote = query({
       return note;
     }
 
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
+    // if (!identity) {
+    //   throw new Error("Not authenticated");
+    // }
 
-    const userId = identity.subject;
+    // const userId = identity.subject;
 
-    if (note.userId !== userId) {
+    if (note.userId !== DEMO_USER_ID) {
       throw new Error("Unauthorized");
     }
 
@@ -507,13 +508,13 @@ export const getPublishedNote = query({
 export const removeNoteIcon = mutation({
   args: { noteId: v.id("files") },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
+    // const identity = await ctx.auth.getUserIdentity();
 
-    if (!identity) {
-      throw new Error("Unauthenticated");
-    }
+    // if (!identity) {
+    //   throw new Error("Unauthenticated");
+    // }
 
-    const userId = identity.subject;
+    // const userId = identity.subject;
 
     const existingNote = await ctx.db.get(args.noteId);
 
@@ -521,7 +522,7 @@ export const removeNoteIcon = mutation({
       throw new Error("Not found");
     }
 
-    if (existingNote.userId !== userId) {
+    if (existingNote.userId !== DEMO_USER_ID) {
       throw new Error("Unauthorized");
     }
 
@@ -536,13 +537,13 @@ export const removeNoteIcon = mutation({
 export const removeNoteCoverImage = mutation({
   args: { noteId: v.id("files") },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
+    // const identity = await ctx.auth.getUserIdentity();
 
-    if (!identity) {
-      throw new Error("Unauthenticated");
-    }
+    // if (!identity) {
+    //   throw new Error("Unauthenticated");
+    // }
 
-    const userId = identity.subject;
+    // const userId = identity.subject;
 
     const existingNote = await ctx.db.get(args.noteId);
 
@@ -550,7 +551,7 @@ export const removeNoteCoverImage = mutation({
       throw new Error("Not found");
     }
 
-    if (existingNote.userId !== userId) {
+    if (existingNote.userId !== DEMO_USER_ID) {
       throw new Error("Unauthorized");
     }
 

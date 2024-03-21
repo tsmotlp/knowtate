@@ -10,7 +10,9 @@ const MainLayout = ({
 }: {
   children: React.ReactNode
 }) => {
-  const { isAuthenticated, isLoading } = useConvexAuth()
+  // const { isAuthenticated, isLoading } = useConvexAuth()
+  const isAuthenticated = true
+  const isLoading = false
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center">

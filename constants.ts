@@ -8,3 +8,4 @@ export const DATA_DIR = "storage";
 export const INFINITE_QUERY_LIMIT = 10;
 export const VECTOR_SEARCH_K = 4;
 export const HISTORY_MESSAGE_N = 5;
+export const DEMO_USER_ID = "user_2dxgEcETe9zu40VUrTdoOjthEDC"
