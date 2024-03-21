@@ -13,7 +13,7 @@
   <img src="public/images/dashboard.png" alt="Knowtate Landing Page">
 </p>
 
-> [!IMPORTANT]
+> [!NOTE]
 > You can try Knowtate online at: https://knowtate.online or deploy it on your own local enviroment by following the instructions of [Quick Start Part](#quick-start).
 
 ## Features
@@ -193,8 +193,11 @@ docker-compose up
 docker-compose down
 ```
 
-## Contributing
-Contributions through code, issue reporting, or suggestions are welcomed. Please refer to our [Contribution Guide](https://chat.openai.com/c/CONTRIBUTION).
+## Copyright and License
+The contents of this repository are licensed under the [MIT License](https://github.com/tsmotlp/knowtate/blob/master/LICENSE). We respect and adhere to the copyright and usage permissions of each paper and resource.
 
-## License
-Knowtate is licensed under GPL-3.0. For details, please refer to the [LICENSE](https://chat.openai.com/c/LICENSE) file.
+## Contact Information
+For any questions or suggestions, please contact us through the following:
+
+- [Submit an Issue](https://github.com/tsmotlp/knowtate/issues)
+- Email: yqhuang2912@gmail.com
