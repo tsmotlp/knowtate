@@ -1,22 +1,25 @@
 <div align="center">
 
-# <img src="public/logo.svg" width="30"> Knowtate <img src="https://img.shields.io/github/license/tsmotlp/knowtate?label=License&style=flat-square&color=blue">
+# <img src="public/logo.svg" width="30"> Knowtate <img src="https://img.shields.io/badge/MIT-License-blue">
 
 </div>
 
 <p align="center">
   <strong>Empowering Research Excellence</strong><br>
-  Knowtate is a fully localized scientific research assistant app offering a suite of features for literature reading, management, and Q&A. Embrace the power of centralized document control, seamless reading, and intelligent inquiry—all within a single, streamlined application.
+  Knowtate is a scientific research assistant app offering a suite of features for literature reading, management, and intelligent QA with AI. Embrace the power of centralized document control, seamless reading, and intelligent QA with AI of your document—all within a single, streamlined application.
 </p>
 
 <p align="center">
   <img src="public/images/dashboard.png" alt="Knowtate Landing Page">
 </p>
 
+> [!IMPORTANT]
+> You can try Knowtate online at: https://knowtate.online or deploy it on your own local enviroment by following the instructions of [Quick Start Part](#quick-start).
+
 ## Features
 
 ### Literature Management and Reading
-Upload and manage your research papers with a central repository backed by MinIO object storage service. This service is self-hostable and supports various cloud storage solutions like AWS S3. Enjoy an online PDF reader that enhances your literature reading experience.
+Upload and manage your research papers with a central repository backed by object storage service. This service can be self-hostable or various cloud storage solutions like AWS S3. Enjoy an online PDF reader that enhances your literature reading experience.
 
 <p align="center">
   <img src="public/images/files.png" alt="Document Management">
@@ -27,12 +30,11 @@ Upload and manage your research papers with a central repository backed by MinIO
 Knowtate caters to your note-taking preferences with three unique styles, each designed to complement different aspects of your research workflow.
 
 #### Notion-Styled Rich Text Editor:
-For those who appreciate the flexibility and aesthetic of Notion, our rich text editor offers similar functionalities. Utilize slash commands (/) to seamlessly switch between text block styles, supporting multi-level headings, tables, ordered and unordered lists, images, and more. All notes are automatically saved to the MinIO object storage system for convenience and security.
+For those who appreciate the flexibility and aesthetic of Notion, our rich text editor offers similar functionalities. Utilize slash commands (/) to seamlessly switch between text block styles, supporting multi-level headings, tables, ordered and unordered lists, images, and more.
 
 <p align="center">
   <img src="public/images/note-notion.png" alt="Notion-Style">
 </p>
-
 
 #### Markdown Editor:
 For the markdown aficionados, the Markdown Editor provides a straightforward, text-focused interface. This allows for efficient writing and formatting with the simplicity and power of markdown syntax—perfect for those who prefer keyboard-centric controls and clean, exportable content.

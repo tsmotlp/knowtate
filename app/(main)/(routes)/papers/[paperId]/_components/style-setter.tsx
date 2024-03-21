@@ -1,11 +1,8 @@
 // components/ColorPicker.tsx
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Progress } from '@/components/ui/progress';
 import { Slider } from '@/components/ui/slider';
-import { cn } from '@/lib/utils';
 import { Circle, CircleCheck } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 interface StyleSetterProps {
   initColor: string,
