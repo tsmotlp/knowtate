@@ -69,8 +69,10 @@ export const PDFViewer = ({
 
   const [annotations, setAnnotations] = useAnnotations(fileId)
 
-  const [annotationColor, setAnnotationColor] = useState("#FF5733")
-  const [annotationOpacity, setAnnotationOpacity] = useState(50)
+  const [highlightColor, setHighlightColor] = useState("#fcf485")
+  const [highlightOpacity, setHighlightOpacity] = useState(50)
+  const [underlineColor, setUnderlineColor] = useState("#e52237")
+  const [underlineOpacity, setUnderlineOpacity] = useState(50)
   const [showStyleSetter, setShowStyleSetter] = useState<string | null>(null)
   const [selectedAnnotationId, setSelectedAnnotationId] = useState<string | null>(null);
   const [isSidebarOpened, setSidebarOpend] = useState(false)
@@ -127,8 +129,8 @@ export const PDFViewer = ({
             const newAnnotation: AnnotationProps = {
               id: uuidv4(),
               type: AnnotationType.Highlight,
-              color: annotationColor,
-              opacity: annotationOpacity / 100,
+              color: highlightColor,
+              opacity: highlightOpacity / 100,
               popoverTop: `${props.selectionRegion.top + props.selectionRegion.height + 1}%`,
               popoverLeft: `${props.selectionRegion.left + props.selectionRegion.width / 2}%`,
               areas: props.highlightAreas
@@ -145,8 +147,8 @@ export const PDFViewer = ({
             const newAnnotation: AnnotationProps = {
               id: uuidv4(),
               type: AnnotationType.Underline,
-              color: annotationColor,
-              opacity: annotationOpacity / 100,
+              color: underlineColor,
+              opacity: underlineOpacity / 100,
               popoverTop: `${props.selectionRegion.top + props.selectionRegion.height + 1}%`,
               popoverLeft: `${(props.selectionRegion.left + props.selectionRegion.width / 2)}%`,
               areas: props.highlightAreas
@@ -238,26 +240,48 @@ export const PDFViewer = ({
                         position: 'absolute',
                         left: annotation.popoverLeft,
                         top: annotation.popoverTop,
-                        zIndex: 1,
+                        zIndex: 2,
                       }}
                       className="bg-white rounded-lg border-2 border-neutral-200"
                     >
-                      <StyleSetter
-                        initColor={annotationColor}
-                        initOpacity={annotationOpacity}
-                        handleColorChange={(color: string) => {
-                          setAnnotationColor(color)
-                          setAnnotations(annotations.map(ann =>
-                            ann.id === annotation.id ? { ...ann, color: color } : ann
-                          ))
-                        }}
-                        handleOpacityChange={(opacity: number) => {
-                          setAnnotationOpacity(opacity)
-                          setAnnotations(annotations.map(ann =>
-                            ann.id === annotation.id ? { ...ann, opacity: opacity / 100 } : ann
-                          ))
-                        }}
-                      />
+                      <>
+                        {annotation.type === AnnotationType.Highlight && (
+                          <StyleSetter
+                            initColor={highlightColor}
+                            initOpacity={highlightOpacity}
+                            handleColorChange={(color: string) => {
+                              setHighlightColor(color)
+                              setAnnotations(annotations.map(ann =>
+                                ann.id === annotation.id ? { ...ann, color: color } : ann
+                              ))
+                            }}
+                            handleOpacityChange={(opacity: number) => {
+                              setHighlightOpacity(opacity)
+                              setAnnotations(annotations.map(ann =>
+                                ann.id === annotation.id ? { ...ann, opacity: opacity / 100 } : ann
+                              ))
+                            }}
+                          />
+                        )}
+                        {annotation.type === AnnotationType.Underline && (
+                          <StyleSetter
+                            initColor={underlineColor}
+                            initOpacity={underlineOpacity}
+                            handleColorChange={(color: string) => {
+                              setUnderlineColor(color)
+                              setAnnotations(annotations.map(ann =>
+                                ann.id === annotation.id ? { ...ann, color: color } : ann
+                              ))
+                            }}
+                            handleOpacityChange={(opacity: number) => {
+                              setUnderlineOpacity(opacity)
+                              setAnnotations(annotations.map(ann =>
+                                ann.id === annotation.id ? { ...ann, opacity: opacity / 100 } : ann
+                              ))
+                            }}
+                          />
+                        )}
+                      </>
                     </div>
                   )}
                 </>

@@ -37,6 +37,7 @@ export const getAllFavoritedFiles = query({
     const allFiles = await ctx.db
       .query("files")
       .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .filter((q) => (q.eq(q.field("isArchived"), false)))
       .filter((q) => (q.eq(q.field("favorited"), true)))
       .order("desc")
       .collect()
@@ -57,6 +58,7 @@ export const getAllPapers = query({
     const allFiles = await ctx.db
       .query("files")
       .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .filter((q) => (q.eq(q.field("isArchived"), false)))
       .filter((q) => (q.eq(q.field("type"), "pdf")))
       .order("desc")
       .collect()

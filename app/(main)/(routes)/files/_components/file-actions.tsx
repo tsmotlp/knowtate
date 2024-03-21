@@ -130,31 +130,6 @@ export const FileActions = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem
-            onClick={() => {
-              window.open(file.url, "_blank");
-            }}
-            className="flex gap-1 items-center cursor-pointer"
-          >
-            <Download className="w-4 h-4" /> Download
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={handleToggleFavorite}
-            className="flex gap-1 items-center cursor-pointer"
-          >
-            {isFavorited ? (
-              <>
-                <Heart className="text-red-500 h-4 w-4 fill-red-500" /> Unfavorite
-              </>
-            ) : (
-              <>
-                <Heart className="h-4 w-4" /> Favorite
-              </>
-            )}
-          </DropdownMenuItem>
-
-          <DropdownMenuSeparator />
           {isArchived ? (
             <>
               <DropdownMenuItem
@@ -170,16 +145,47 @@ export const FileActions = ({
                 }}
                 className="flex gap-1 items-center cursor-pointer"
               >
-                <TrashIcon className="w-4 h-4" /> Delete
+                <TrashIcon className="w-4 h-4" /> Remove
               </DropdownMenuItem>
             </>
           ) : (
-            <DropdownMenuItem
-              onClick={handleToggleArchive}
-              className="flex gap-1 items-center cursor-pointer"
-            >
-              <Trash2Icon className="w-4 h-4" /> Move to Trash
-            </DropdownMenuItem>
+            <>
+              {file.type === "pdf" && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      window.open(file.url, "_blank");
+                    }}
+                    className="flex gap-1 items-center cursor-pointer"
+                  >
+                    <Download className="w-4 h-4" /> Download
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              <DropdownMenuItem
+                onClick={handleToggleFavorite}
+                className="flex gap-1 items-center cursor-pointer"
+              >
+                {isFavorited ? (
+                  <>
+                    <Heart className="text-red-500 h-4 w-4 fill-red-500" /> Unfavorite
+                  </>
+                ) : (
+                  <>
+                    <Heart className="h-4 w-4" /> Favorite
+                  </>
+                )}
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={handleToggleArchive}
+                className="flex gap-1 items-center cursor-pointer"
+              >
+                <Trash2Icon className="w-4 h-4" /> Delete
+              </DropdownMenuItem>
+            </>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
