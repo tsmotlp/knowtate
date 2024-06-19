@@ -1,0 +1,11 @@
+export const BUCKET_REGION = "local";
+export const PAPERS_BUCKET_NAME = "papers";
+export const NOTES_BUCKET_NAME = "notes";
+export const WHITEBOARDS_BUCKET_NAME = "whiteboards"
+export const IMAGES_BUCKET_NAME = "images";
+export const PRESIGNED_URL_EXPIRE = 7 * 24 * 60 * 60;
+export const DATA_DIR = "storage";
+export const INFINITE_QUERY_LIMIT = 10;
+export const VECTOR_SEARCH_K = 4;
+export const HISTORY_MESSAGE_N = 5;
+export const DEMO_USER_ID = "user_2dxgEcETe9zu40VUrTdoOjthEDC"

@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  type      String
+  parentId  String
+  favorited Boolean
+  archived  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Paper {
+  id            String    @id @default(uuid())
+  title         String
+  authors       String?
+  publication   String?
+  publicateDate String?
+  importance    String?
+  url           String
+  categoryId    String
+  favorited     Boolean
+  archived      Boolean
+  annotations   String?
+  messages      Message[]
+  notes         Note[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Note {
+  id         String   @id @default(uuid())
+  title      String
+  type       String
+  icon       String?
+  content    String?
+  favorited  Boolean
+  archived   Boolean
+  paper      Paper?   @relation(fields: [paperId], references: [id])
+  paperId    String?
+  categoryId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  role      String
+  paper     Paper    @relation(fields: [paperId], references: [id])
+  paperId   String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
