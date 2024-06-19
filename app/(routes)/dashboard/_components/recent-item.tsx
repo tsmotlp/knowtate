@@ -49,7 +49,7 @@ export const RecentItem = ({
       {expanded && (
         <div className="px-6 py-4">
           {items && items.map((item) => (
-            <div className="flex w-full justify-between text-sm">
+            <div key={item.id} className="flex w-full justify-between text-sm">
               <Link
                 href={`/papers/${item.id}`}
                 className="flex items-center hover:underline"

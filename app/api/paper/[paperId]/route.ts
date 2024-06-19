@@ -87,18 +87,16 @@ export const DELETE = async (
   }
 }
 
-export const GET = async ({
-  params
-}: {
-  params: {
-    paperId: string
-  }
-}) => {
+export const GET = async (
+  req: Request,
+  { params }: { params: { paperId: string } }
+) => {
   try {
     const paper = await getPaperById(params.paperId)
     if (paper) {
       return NextResponse.json(paper)
     }
+    return new NextResponse("Paper not found", { status: 404 })
   } catch (error) {
     console.log("GET PAPER ERROR", error)
     return new NextResponse("Internal Error", { status: 500 })

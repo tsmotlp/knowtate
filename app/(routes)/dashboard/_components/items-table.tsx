@@ -29,20 +29,13 @@ export const ItemsTable = ({
   type,
   items
 }: ItemsTableProps) => {
-  let table: ReactTable<DashboardItem>;
-  if (type === CategoryType.Papers) {
-    table = useReactTable({
-      columns: PaperTableColumns,
-      data: items,
-      getCoreRowModel: getCoreRowModel()
-    })
-  } else {
-    table = useReactTable({
-      columns: DefaultTableColumns,
-      data: items,
-      getCoreRowModel: getCoreRowModel()
-    })
-  }
+  const columns = type === CategoryType.Papers ? PaperTableColumns : DefaultTableColumns;
+
+  const table = useReactTable({
+    columns: columns,
+    data: items,
+    getCoreRowModel: getCoreRowModel()
+  });
 
   return (
     <>
