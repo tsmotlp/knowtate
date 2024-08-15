@@ -20,6 +20,11 @@
 .DS_Store
 *.pem
 
+# public files
+/public/images
+/public/papers
+
+
 # debug
 npm-debug.log*
 yarn-debug.log*

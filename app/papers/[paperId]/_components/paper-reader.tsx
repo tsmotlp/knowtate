@@ -7,6 +7,7 @@ import { PaperNotes } from "./paper-notes"
 import { PaperInfo } from "./paper-info"
 import { Message, Note, Paper } from "@prisma/client"
 import { ChatClient } from "./chat/chat-client"
+import { PaperNote } from "./paper-note"
 
 interface PaperReaderProps {
   paper: Paper & {
@@ -49,7 +50,8 @@ export const PaperReader = ({
                   <PaperInfo />
                 )}
                 {papeType === "notes" && (
-                  <PaperNotes notes={paper.notes} />
+                  // <PaperNotes notes={paper.notes} />
+                  <PaperNote note={paper.notes[0]}/>
                 )}
                 {papeType === "chat" && (
                   <ChatClient paperId={paper.id} paperUrl={paper.url} messages={paper.messages} />

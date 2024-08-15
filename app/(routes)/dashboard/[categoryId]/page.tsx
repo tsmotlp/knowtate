@@ -5,6 +5,7 @@ import { ItemsBrowser } from "../_components/items-browser"
 import { DashboardItem, DashboardItemType, NoteWithPaper } from "@/types/types"
 import { Category, Paper } from "@prisma/client"
 import { RecentBrowser } from "../_components/recent-browser"
+import { WebsBrowser } from "../_components/webs-browser"
 
 interface CategoryIdPageProps {
   params: {
@@ -17,7 +18,7 @@ const CategoryIdPage = async ({ params }: CategoryIdPageProps) => {
   let subCategories: Category[] | undefined = []
   let papers: Paper[] | undefined = []
   let notes: NoteWithPaper[] | undefined = []
-  if (params.categoryId === "recents") {
+  if (params.categoryId === "recents" || params.categoryId === "library") {
     papers = await getRecentPapers()
     console.log("papers", papers)
   } else if (params.categoryId === "trash") {
@@ -89,7 +90,9 @@ const CategoryIdPage = async ({ params }: CategoryIdPageProps) => {
 
   return (
     <div className="h-full w-full">
-      {params.categoryId === "recents" ? (
+      {params.categoryId === "webs" ? (
+        <WebsBrowser url="" />
+      ) : params.categoryId === "recents" || params.categoryId === "library" ? (
         <RecentBrowser
           category={category}
           parentId={params.categoryId}
@@ -102,9 +105,10 @@ const CategoryIdPage = async ({ params }: CategoryIdPageProps) => {
           initItems={items}
         />
       )}
-
     </div>
-  )
+  );
+
 }
+  
 
 export default CategoryIdPage

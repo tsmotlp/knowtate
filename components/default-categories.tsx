@@ -1,7 +1,7 @@
 "use client"
 
 import { CategoryType, CategoryWithIcon } from "@/types/types"
-import { BookA, BotIcon, FileType, Globe, HeartIcon, History, Library, NotebookPenIcon, PenTool, ReceiptText, Rss, Trash2 } from "lucide-react"
+import { BookA, BotIcon, FileType, FolderOpen, Globe, GraduationCap, HeartIcon, History, Library, NotebookPenIcon, PenTool, ReceiptText, Rss, Trash2 } from "lucide-react"
 
 
 export const defaultCategories: CategoryWithIcon[] = [
@@ -16,13 +16,24 @@ export const defaultCategories: CategoryWithIcon[] = [
     createdAt: new Date(Date.now()),
     updatedAt: new Date(Date.now()),
   },
+  // {
+  //   id: "webs",
+  //   name: "学术网站",
+  //   type: CategoryType.Others,
+  //   favorited: false,
+  //   archived: false,
+  //   parentId: "text",
+  //   icon: Globe,
+  //   createdAt: new Date(Date.now()),
+  //   updatedAt: new Date(Date.now()),
+  // },
   {
     id: "notes",
     name: "我的笔记",
     type: CategoryType.Markdowns,
     favorited: false,
     archived: false,
-    parentId: "text",
+    parentId: "",
     icon: NotebookPenIcon,
     createdAt: new Date(Date.now()),
     updatedAt: new Date(Date.now()),
@@ -46,28 +57,6 @@ export const defaultCategories: CategoryWithIcon[] = [
     archived: false,
     parentId: "text",
     icon: Trash2,
-    createdAt: new Date(Date.now()),
-    updatedAt: new Date(Date.now()),
-  },
-  {
-    id: "webs",
-    name: "学术网站",
-    type: CategoryType.Others,
-    favorited: false,
-    archived: false,
-    parentId: "tool",
-    icon: Globe,
-    createdAt: new Date(Date.now()),
-    updatedAt: new Date(Date.now()),
-  },
-  {
-    id: "rss",
-    name: "文献订阅",
-    type: CategoryType.Others,
-    favorited: false,
-    archived: false,
-    parentId: "tool",
-    icon: Rss,
     createdAt: new Date(Date.now()),
     updatedAt: new Date(Date.now()),
   },
@@ -138,4 +127,37 @@ export const defaultCategories: CategoryWithIcon[] = [
     createdAt: new Date(Date.now()),
     updatedAt: new Date(Date.now()),
   },
+  // {
+  //   id: "googlescholar",
+  //   name: "谷歌学术",
+  //   type: CategoryType.Others,
+  //   favorited: false,
+  //   archived: false,
+  //   parentId: "webs",
+  //   icon: GraduationCap,
+  //   createdAt: new Date(Date.now()),
+  //   updatedAt: new Date(Date.now()),
+  // },
+  // {
+  //   id: "semanticscholar",
+  //   name: "SemanticScholar",
+  //   type: CategoryType.Others,
+  //   favorited: false,
+  //   archived: false,
+  //   parentId: "webs",
+  //   icon: FolderOpen,
+  //   createdAt: new Date(Date.now()),
+  //   updatedAt: new Date(Date.now()),
+  // },
+  // {
+  //   id: "arxiv",
+  //   name: "Arxiv",
+  //   type: CategoryType.Others,
+  //   favorited: false,
+  //   archived: false,
+  //   parentId: "webs",
+  //   icon: ReceiptText,
+  //   createdAt: new Date(Date.now()),
+  //   updatedAt: new Date(Date.now()),
+  // },
 ]

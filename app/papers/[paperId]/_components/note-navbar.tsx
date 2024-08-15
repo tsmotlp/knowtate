@@ -27,7 +27,7 @@ export const NoteNavbar = ({
   handleDownload,
   showDashboardIcon,
 }: NoteNavbarProps) => {
-  const router = useRouter()
+  const router = useRouter();
   const inputRef = useRef<ElementRef<"textarea">>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(note.title);
@@ -47,16 +47,14 @@ export const NoteNavbar = ({
     setTitle(value);
     try {
       await axios.patch(`/api/note/${note.id}`, JSON.stringify({
-        title: value || "Untitled"
+        title: value || "Untitled",
       }));
     } catch (error) {
       console.error("Failed to update note title:", error);
     }
   };
 
-  const onKeyDown = (
-    event: React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
+  const onKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
       disableInput();
@@ -66,23 +64,23 @@ export const NoteNavbar = ({
   const onIconSelect = async (icon: string) => {
     try {
       await axios.patch(`/api/note/${note.id}`, JSON.stringify({
-        icon: icon
+        icon: icon,
       }));
-      setIcon(icon)
+      setIcon(icon);
     } catch (error) {
       console.error("Failed to update note icon:", error);
     }
-  }
+  };
 
   return (
     <div className="h-full flex items-center justify-between px-2 border-b">
-      <div className="w-full flex flex-grow items-center gap-x-1">
+      <div className="w-full flex flex-grow items-center gap-x-1 overflow-hidden">
         {showDashboardIcon && (
           <ToolButton
             label="回到首页"
             icon={Library}
             size="compact"
-            iconClassName='h-4 w-4 text-muted-foreground'
+            iconClassName="h-4 w-4 text-muted-foreground"
             onClick={() => router.push("/dashboard/library")}
             color=""
           />
@@ -112,23 +110,23 @@ export const NoteNavbar = ({
             onKeyDown={onKeyDown}
             value={title!}
             onChange={(e) => onInput(e.target.value)}
-            className="truncate bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] resize-none"
+            className="truncate bg-transparent font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] resize-none overflow-hidden"
           />
         ) : (
           <div
             onClick={enableInput}
-            className="truncate font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF]"
+            className="truncate font-bold break-words outline-none text-[#3F3F3F] dark:text-[#CFCFCF] overflow-hidden"
           >
             {title}
           </div>
         )}
       </div>
-      <div className="h-full w-full flex items-center justify-end text-muted-foreground">
+      <div className="h-full w-full flex items-center justify-end text-muted-foreground overflow-hidden">
         <ToolButton
           label="保存"
           icon={Save}
           size="compact"
-          iconClassName='h-4 w-4 text-muted-foreground'
+          iconClassName="h-4 w-4 text-muted-foreground"
           onClick={handleSave}
           color=""
         />
@@ -136,13 +134,13 @@ export const NoteNavbar = ({
           label="下载"
           icon={Download}
           size="compact"
-          iconClassName='h-4 w-4 text-muted-foreground'
-          onClick={() => { handleDownload(title!) }}
+          iconClassName="h-4 w-4 text-muted-foreground"
+          onClick={() => { handleDownload(title!); }}
           color=""
         />
         {paper && paper.id && (
           <Link href={`/papers/${paper.id}`}>
-            <div className="w-80 flex items-center gap-x-1 text-muted-foreground underline ml-2 text-xs border p-1 rounded-md bg-primary/10 truncate">
+            <div className="flex items-center gap-x-1 text-muted-foreground underline ml-2 text-xs border p-1 rounded-md bg-primary/10 truncate">
               <BsFiletypePdf className="h-4 w-4 text-red-400" />
               <span className="truncate">{paper.title}</span>
             </div>
@@ -150,5 +148,5 @@ export const NoteNavbar = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};

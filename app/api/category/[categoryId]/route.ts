@@ -11,31 +11,31 @@ export const PATCH = async (
     if (name) {
       const renamedCategory = await renameCategory(params.categoryId, name)
       if (renamedCategory) {
-        return NextResponse.json(renamedCategory)
+        return new NextResponse(JSON.stringify(renameCategory), { status: 200 })
       }
       return new NextResponse("Failed to update category", { status: 500 })
     } else if (archived === true) {
       const archivedCategory = await archiveCategory(params.categoryId, true)
       if (archivedCategory) {
-        return NextResponse.json(archivedCategory)
+        return new NextResponse(JSON.stringify(archivedCategory), { status: 200 })
       }
       return new NextResponse("Failed to update category", { status: 500 })
     } else if (archived === false) {
       const restoredCategory = await archiveCategory(params.categoryId, false)
       if (restoredCategory) {
-        return NextResponse.json(restoredCategory)
+        return new NextResponse(JSON.stringify(restoredCategory), { status: 200 })
       }
       return new NextResponse("Failed to update category", { status: 500 })
     } else if (favorited === true) {
       const favoritedCategory = await favoriteCategory(params.categoryId, true)
       if (favoritedCategory) {
-        return NextResponse.json(favoritedCategory)
+        return new NextResponse(JSON.stringify(favoritedCategory), { status: 200 })
       }
       return new NextResponse("Failed to update category", { status: 500 })
     } else if (favorited === false) {
       const unfavoritedCategory = await favoriteCategory(params.categoryId, false)
       if (unfavoritedCategory) {
-        return NextResponse.json(unfavoritedCategory)
+        return new NextResponse(JSON.stringify(unfavoritedCategory), { status: 200 })
       }
       return new NextResponse("Failed to update category", { status: 500 })
     } else {

@@ -32,7 +32,7 @@ export const RecentItem = ({
 
   return (
     <div className="h-full w-full">
-      <div className="group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium">
+      <div className="group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center font-medium">
         <div
           role="button"
           className="h-full rounded-sm mx-1"
@@ -47,7 +47,7 @@ export const RecentItem = ({
         </span>
       </div>
       {expanded && (
-        <div className="px-6 py-4">
+        <div className="flex flex-col px-6 py-4 gap-y-4">
           {items && items.map((item) => (
             <div key={item.id} className="flex w-full justify-between text-sm">
               <Link

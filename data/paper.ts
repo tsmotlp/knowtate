@@ -207,7 +207,6 @@ export const updateAnnotionOfPaper = async (id: string, annotations: string) => 
         annotations
       }
     })
-    console.log("update annotation", paper)
     return paper
   } catch (error) {
     console.log("UPDATE ANNOTATIONS OF PAPER ERROR", error)
