@@ -24,6 +24,7 @@
 /public/images
 /public/papers
 
+/prisma/researcher2.db
 
 # debug
 npm-debug.log*
