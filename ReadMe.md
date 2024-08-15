@@ -1,6 +1,6 @@
 <div align="center">
 
-# <img src="public/logo.svg" width="30"> Knowtate <img src="https://img.shields.io/badge/MIT-License-blue">
+# Knowtate <img src="https://img.shields.io/badge/MIT-License-blue">
 
 </div>
 
@@ -64,9 +64,6 @@ PROXY_URL=
 ```
 
 > For Windows users, find your network proxy address in Settings -> Network and Internet -> Manual proxy setup -> Edit. Enter the server information in the format http://localhost:10077 as your PROXY_URL.
-<p align="center">
-  <img src="public/images/proxy-windows.png" alt="Proxy Settings on Windows">
-</p>
 
 > For Linux users, determine your network proxy address with:
 
