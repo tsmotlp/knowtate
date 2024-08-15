@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img src="public/images/dashboard.png" alt="Knowtate Landing Page">
+  <img src="public/dashboard.png" alt="Knowtate Landing Page">
 </p>
 
 > [!NOTE]
@@ -22,18 +22,12 @@
 Upload and manage your research papers with a central repository backed by object storage service. This service can be self-hostable or various cloud storage solutions like AWS S3. Enjoy an online PDF reader that enhances your literature reading experience.
 
 <p align="center">
-  <img src="public/images/files.png" alt="Document Management">
-  <img src="public/images/paper-reading.png" alt="Paper reading">
+  <img src="public/files.png" alt="Document Management">
+  <img src="public/paper-reading.png" alt="Paper reading">
 </p>
 
-### Diverse Note-Taking Styles:
-Knowtate caters to your note-taking preferences with three unique styles, each designed to complement different aspects of your research workflow.
-
-#### Markdown Editor:
+### Markdown Editor:
 For the markdown aficionados, the Markdown Editor provides a straightforward, text-focused interface. This allows for efficient writing and formatting with the simplicity and power of markdown syntax—perfect for those who prefer keyboard-centric controls and clean, exportable content.
-
-#### Excalidraw Whiteboard:
-Unleash your creativity with the Excalidraw whiteboard, a digital canvas for freeform drawing, diagramming, and visual brainstorming. This tool is excellent for creating and sharing quick sketches, complex diagrams, or visual notes that complement your research.
 
 ### Intelligent Paper Q&A:
 Powered by a RAG-based intelligent Q&A system, Knowtate allows you to inquire about any aspect of your papers. Customize your dialogue models, vectorization models, and vector databases to suit your needs. Currently supporting OpenAI ChatGPT and OpenAI Embeddings for insightful interactions.
