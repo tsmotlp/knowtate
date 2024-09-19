@@ -24,12 +24,12 @@
 /public/images
 /public/papers
 
-/prisma/researcher1.db
+/prisma/researcher.db
 
 # debug
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+yarn-error.log* 
 
 # local env files
 .env*.local
