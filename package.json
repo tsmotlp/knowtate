@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "postinstall": "prisma generate && prisma db push",
+    "db:reset": "npx prisma db push --force-reset",
+		"db:recreate": "npx prisma db push --force-reset && npx prisma db push",
+		"db:seed": "npx prisma db seed",
+		"db:reseed": "npx prisma db push --force-reset && npx prisma db seed",
+		"postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

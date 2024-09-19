@@ -1,13 +1,16 @@
 import { PrismaClient } from "@prisma/client";
+import path from 'path';
 
 declare global {
   var prisma: PrismaClient | undefined;
 }
 
+const filePath = path.join(process.cwd(), 'prisma/researcher.db')
 const prismadb = globalThis.prisma || new PrismaClient({
   datasources: {
     db: {
-      url: process.env.DATABASE_URL,
+      // url: process.env.DATABASE_URL,
+      url: 'file:' + filePath,
     },
   },
 });
