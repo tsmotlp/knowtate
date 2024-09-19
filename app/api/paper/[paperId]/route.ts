@@ -1,4 +1,4 @@
-import { archivePaper, favoritePaper, getPaperById, removePaper, renamePaper, updateAnnotionOfPaper } from "@/data/paper"
+import { archivePaper, favoritePaper, getPaperById, movePaper, removePaper, renamePaper, updateAnnotionOfPaper } from "@/data/paper"
 import { NextResponse } from "next/server"
 import path from "path"
 import fs from 'fs';
@@ -11,13 +11,19 @@ export const PATCH = async (
 ) => {
   try {
     const body = await req.json()
-    const { title, archived, favorited, annotations } = body
+    const { title, archived, favorited, annotations, parentId } = body
     if (title) {
       const renamedPaper = await renamePaper(params.paperId, title)
       if (renamedPaper) {
         return NextResponse.json(renamedPaper)
       }
       return new NextResponse("Failed to update paper", { status: 500 })
+    } else if (parentId) {
+      const movedPaper = await movePaper(params.paperId, parentId)
+      if (movedPaper) {
+        return NextResponse.json(movedPaper)
+      }
+      return new NextResponse("Failed to move paper", { status: 500 })
     } else if (archived === true) {
       const archivedPaper = await archivePaper(params.paperId, true)
       if (archivedPaper) {

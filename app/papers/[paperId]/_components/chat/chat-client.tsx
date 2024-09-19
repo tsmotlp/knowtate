@@ -53,16 +53,28 @@ export const ChatClient = ({
         const { done, value } = await reader.read();
         if (done) break;
         const chunk = decoder.decode(value, { stream: true }); // 确保文本流不会被截断
-        fullMessage += chunk; // 累积消息的每个片段
-        // 更新消息列表以显示累积的消息
-        setHistoryMessages((current) => {
-          // 只更新最后一个系统消息或添加新的系统消息
-          const lastMessage = current[current.length - 1];
-          if (lastMessage && lastMessage.role === 'assistant') {
-            return current.slice(0, -1).concat({ ...lastMessage, content: fullMessage });
+        // 解析并处理数据
+        const lines = chunk.split('\n');
+        for (const line of lines) {
+          if (line.trim() === '') continue;
+          // 根据实际数据格式选择解析方式
+          const match = line.match(/^0:"(.*)"$/);
+
+          if (match) {
+            const content = match[1];
+            fullMessage += content;
+
+            setHistoryMessages((current) => {
+              const lastMessage = current[current.length - 1];
+              if (lastMessage && lastMessage.role === 'assistant') {
+                return current.slice(0, -1).concat({ ...lastMessage, content: fullMessage });
+              }
+              return current.concat({ role: 'assistant', content: fullMessage });
+            });
+          } else {
+            console.warn('Unrecognized line format:', line);
           }
-          return current.concat({ role: 'assistant', content: fullMessage });
-        });
+        }
       }
       await axios.post("/api/message", {
         paperId: paperId,

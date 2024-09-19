@@ -12,6 +12,7 @@ import {
   FilePen,
   Heart,
   MoreVertical,
+  Move,
   Trash2Icon,
   TrashIcon,
   Undo2,
@@ -25,7 +26,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
@@ -37,8 +38,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { DashboardItem, DashboardItemType } from "@/types/types";
-import { useRouter } from "next/navigation";
+import { CategoryType, DashboardItem, DashboardItemType } from "@/types/types";
+import { Category } from "@prisma/client";
 
 interface ItemActionsProps {
   item: DashboardItem
@@ -52,6 +53,23 @@ export const ItemActions = ({
   const [isArchived, setIsArchived] = useState(item.archived)
   const [newName, setnewName] = useState("")
   const [isRenameDialogOpen, setIsRenameDialogOpen] = useState(false)
+  // 新增的状态变量
+  const [isMoveDialogOpen, setIsMoveDialogOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([
+    {
+      id: "library",
+      name: "我的文库",
+      type: CategoryType.Papers,
+      favorited: false,
+      archived: false,
+      parentId: "text",
+      createdAt: new Date(Date.now()),
+      updatedAt: new Date(Date.now()),
+    },
+  ]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setnewName(e.target.value)
   }
@@ -72,7 +90,7 @@ export const ItemActions = ({
     }
   }
 
-  const handleRenamePaper = async (title: string) => {
+  const handleRename = async (title: string) => {
     let type = "paper"
     if (item.type === DashboardItemType.Category) type = "category"
     if (item.type === DashboardItemType.Markdown || item.type === DashboardItemType.Whiteboard) type = "note"
@@ -103,7 +121,7 @@ export const ItemActions = ({
     }
   }
 
-  const handleRemovePaper = async () => {
+  const handleRemove = async () => {
     let type = "paper"
     if (item.type === DashboardItemType.Category) type = "category"
     if (item.type === DashboardItemType.Markdown || item.type === DashboardItemType.Whiteboard) type = "note"
@@ -117,6 +135,70 @@ export const ItemActions = ({
     toast("Paper removed!")
   }
 
+  // 新增的函数：获取分类列表
+  const fetchCategories = async () => {
+    setIsLoadingCategories(true);
+    try {
+      const response = await axios.get("/api/category"); // 假设有这个 API 端点
+      if (response.status === 200) {
+        // setCategories(response.data);
+        setCategories((current) => [
+          ...current,
+          ...response.data.filter((c: Category) => c.id !== item.id),
+        ]);
+      } else {
+        toast("Failed to fetch categories");
+      }
+    } catch (error) {
+      toast("Failed to fetch categories");
+    } finally {
+      setIsLoadingCategories(false);
+    }
+  };
+
+  // 新增的函数：处理移动操作
+  const handleMoveItem = async () => {
+    if (!selectedCategoryId) {
+      toast("Please select a category to move.");
+      return;
+    }
+    try {
+      const type = item.type.toLowerCase(); // 假设 API 路径是根据 item.type 小写
+      const response = await axios.patch(`/api/${type}/${item.id}`, {
+        parentId: selectedCategoryId
+      });
+      if (response.status === 200) {
+        toast("Item moved successfully!");
+        setIsMoveDialogOpen(false);
+        location.reload() // 刷新页面以获取最新数据
+      } else {
+        toast("Failed to move item.");
+      }
+    } catch (error) {
+      toast("Failed to move item.");
+    }
+  };
+
+  // 当移动对话框打开时，获取分类列表
+  useEffect(() => {
+    if (isMoveDialogOpen) {
+      fetchCategories();
+    } else {
+      setCategories([
+        {
+          id: "library",
+          name: "我的文库",
+          type: CategoryType.Papers,
+          favorited: false,
+          archived: false,
+          parentId: "text",
+          createdAt: new Date(Date.now()),
+          updatedAt: new Date(Date.now()),
+        },
+      ])
+    }
+  }, [isMoveDialogOpen]);
+
   return (
     <>
       <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
@@ -128,7 +210,7 @@ export const ItemActions = ({
             <AlertDialogCancel>取消</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                handleRemovePaper()
+                handleRemove()
                 setIsConfirmOpen(false)
               }}
             >
@@ -167,6 +249,14 @@ export const ItemActions = ({
                 onClick={() => setIsRenameDialogOpen(true)}
               >
                 <FilePen className="w-4 h-4" /> 重命名
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              {/* 新增的移动按钮 */}
+              <DropdownMenuItem
+                onClick={() => setIsMoveDialogOpen(true)}
+                className="flex gap-2 items-center cursor-pointer text-muted-foreground"
+              >
+                <Move className="w-4 h-4" /> 移动
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -227,9 +317,8 @@ export const ItemActions = ({
             <Button
               type="submit"
               onClick={() => {
-                handleRenamePaper(newName)
+                handleRename(newName)
                 setIsRenameDialogOpen(false)
-                location.reload()
               }}
               variant="secondary"
               size="sm"
@@ -241,6 +330,56 @@ export const ItemActions = ({
               onClick={() => {
                 setIsRenameDialogOpen(false)
               }}
+              variant="secondary"
+              size="sm"
+            >
+              取消
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      {/* 移动对话框 */}
+      <Dialog
+        open={isMoveDialogOpen}
+        onOpenChange={setIsMoveDialogOpen}
+      >
+        <DialogContent className="flex flex-col justify-center">
+          <DialogHeader>
+            <DialogTitle>移动到分类</DialogTitle>
+          </DialogHeader>
+          <div className="w-full flex flex-col gap-4">
+            {isLoadingCategories ? (
+              <div className="text-center">加载中...</div>
+            ) : (
+              <select
+                className="border p-2 rounded"
+                value={selectedCategoryId ?? ""}
+                onChange={(e) => setSelectedCategoryId(e.target.value)}
+              >
+                <option value="" disabled>
+                  选择一个分类
+                </option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              onClick={handleMoveItem}
+              disabled={!selectedCategoryId || isLoadingCategories}
+              variant="secondary"
+              size="sm"
+            >
+              确定
+            </Button>
+            <Button
+              type="button"
+              onClick={() => setIsMoveDialogOpen(false)}
               variant="secondary"
               size="sm"
             >

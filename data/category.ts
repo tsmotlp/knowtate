@@ -47,6 +47,22 @@ export const renameCategory = async (id: string, name: string) => {
   }
 }
 
+export const moveCategory = async (id: string, parentId: string) => {
+  try {
+    const category = await prismadb.category.update({
+      where: {
+        id
+      },
+      data: {
+        parentId
+      }
+    })
+    return category
+  } catch (error) {
+    console.log("MOVE CATEGORY ERROR", error)
+  }
+}
+
 export const getCategoriesByType = async (type: string) => {
   try {
     const categories = await prismadb.category.findMany({

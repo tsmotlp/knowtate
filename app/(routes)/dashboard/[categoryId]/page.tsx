@@ -18,9 +18,8 @@ const CategoryIdPage = async ({ params }: CategoryIdPageProps) => {
   let subCategories: Category[] | undefined = []
   let papers: Paper[] | undefined = []
   let notes: NoteWithPaper[] | undefined = []
-  if (params.categoryId === "recents" || params.categoryId === "library") {
+  if (params.categoryId === "recents") {
     papers = await getRecentPapers()
-    console.log("papers", papers)
   } else if (params.categoryId === "trash") {
     subCategories = await getArchivedCategories()
     notes = await getArchivedNotesWithPaper()
@@ -92,7 +91,7 @@ const CategoryIdPage = async ({ params }: CategoryIdPageProps) => {
     <div className="h-full w-full">
       {params.categoryId === "webs" ? (
         <WebsBrowser url="" />
-      ) : params.categoryId === "recents" || params.categoryId === "library" ? (
+      ) : params.categoryId === "recents" ? (
         <RecentBrowser
           category={category}
           parentId={params.categoryId}

@@ -1,4 +1,4 @@
-import { archiveCategory, favoriteCategory, removeCategory, renameCategory } from "@/data/category"
+import { archiveCategory, favoriteCategory, moveCategory, removeCategory, renameCategory } from "@/data/category"
 import { NextResponse } from "next/server"
 
 export const PATCH = async (
@@ -7,13 +7,19 @@ export const PATCH = async (
 ) => {
   try {
     const body = await req.json()
-    const { name, favorited, archived } = body
-    if (name) {
-      const renamedCategory = await renameCategory(params.categoryId, name)
+    const { title, favorited, archived, parentId } = body
+    if (title) {
+      const renamedCategory = await renameCategory(params.categoryId, title);
       if (renamedCategory) {
-        return new NextResponse(JSON.stringify(renameCategory), { status: 200 })
+        return new NextResponse(JSON.stringify(renamedCategory), { status: 200 });
       }
-      return new NextResponse("Failed to update category", { status: 500 })
+      return new NextResponse("Failed to update category", { status: 500 });
+    } else if (parentId) {
+      const movedCategory = await moveCategory(params.categoryId, parentId);
+      if (movedCategory) {
+        return new NextResponse(JSON.stringify(movedCategory), { status: 200 });
+      }
+      return new NextResponse("Failed to move category", { status: 500 });
     } else if (archived === true) {
       const archivedCategory = await archiveCategory(params.categoryId, true)
       if (archivedCategory) {

@@ -52,7 +52,7 @@ export const SidebarItem = ({
           <Icon
             className={cn(
               "shrink-0 h-[18px] w-[18px] mr-2",
-              active && "bg-primary/5 text-primary",
+              active && "bg-primary/5 text-primary fill-primary/80",
               level !== 0 && "h-[16px] w-[16px]"
             )}
           />

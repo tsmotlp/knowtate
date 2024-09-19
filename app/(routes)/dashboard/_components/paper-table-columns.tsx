@@ -30,7 +30,7 @@ export const PaperTableColumns: ColumnDef<DashboardItem>[] = [
             {row.original.type === DashboardItemType.Category && (
               <Folder className="h-4 w-4 text-primary/50 fill-primary/50" />
             )}
-            <span className="truncate text-muted-foreground">{row.original.label}</span>
+            <span className="flex-1 truncate text-muted-foreground">{row.original.label}</span>
           </div>
         </Link>
       )
@@ -40,7 +40,7 @@ export const PaperTableColumns: ColumnDef<DashboardItem>[] = [
     header: "作者",
     cell: ({ row }) => {
       return (
-        <div className="truncate text-muted-foreground hover:cursor-pointer">
+        <div className="max-w-xs truncate text-muted-foreground hover:cursor-pointer">
           {row.original.authors}
         </div>
       )
@@ -50,7 +50,7 @@ export const PaperTableColumns: ColumnDef<DashboardItem>[] = [
     header: "期刊",
     cell: ({ row }) => {
       return (
-        <div className="truncate text-muted-foreground hover:cursor-pointer">
+        <div className="max-w-xs truncate text-muted-foreground hover:cursor-pointer">
           {row.original.publication}
         </div>
       )
@@ -70,7 +70,7 @@ export const PaperTableColumns: ColumnDef<DashboardItem>[] = [
     header: "最后修改",
     cell: ({ row }) => {
       return (
-        <div className="truncate text-muted-foreground hover:cursor-pointer">
+        <div className="w-24 truncate text-muted-foreground hover:cursor-pointer">
           {format(new Date(row.original.lastEdit), "yyyy/MM/dd")}
         </div>
       );
@@ -80,7 +80,7 @@ export const PaperTableColumns: ColumnDef<DashboardItem>[] = [
     header: "管理",
     cell: ({ row }) => {
       return (
-        <div className="truncate text-muted-foreground hover:cursor-pointer">
+        <div className="w-16 truncate text-muted-foreground hover:cursor-pointer">
           <ItemActions
             item={row.original}
           />

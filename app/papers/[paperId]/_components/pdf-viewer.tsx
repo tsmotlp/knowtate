@@ -61,7 +61,7 @@ export const PDFViewer = ({
     paper.annotations ? JSON.parse(paper.annotations) : []
   )
   const [translationResult, setTranslationResult] = useState("")
-  const [highlightColor, setHighlightColor] = useState("#fcf485")
+  const [highlightColor, setHighlightColor] = useState("#e52237")
   const [highlightOpacity, setHighlightOpacity] = useState(50)
   const [underlineColor, setUnderlineColor] = useState("#e52237")
   const [underlineOpacity, setUnderlineOpacity] = useState(50)

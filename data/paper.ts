@@ -184,6 +184,22 @@ export const renamePaper = async (id: string, title: string) => {
   }
 }
 
+export const movePaper = async (id: string, parentId: string) => {
+  try {
+    const paper = await prismadb.paper.update({
+      where: {
+        id
+      },
+      data: {
+        categoryId: parentId
+      }
+    })
+    return paper
+  } catch (error) {
+    console.log("MOVE PAPER ERROR", error)
+  }
+}
+
 export const removePaper = async (id: string) => {
   try {
     const paper = await prismadb.paper.delete({
