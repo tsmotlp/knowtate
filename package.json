@@ -7,7 +7,7 @@
 		"db:recreate": "npx prisma db push --force-reset && npx prisma db push",
 		"db:seed": "npx prisma db seed",
 		"db:reseed": "npx prisma db push --force-reset && npx prisma db seed",
-		"postinstall": "prisma generate",
+		"postinstall": "prisma generate && npx prisma db push --force-reset && npx prisma db push",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
